@@ -66,7 +66,7 @@ importance = pd.Series(rf_model.feature_importances_, index=X.columns)
 importance = importance.sort_values(ascending=True)
 
 plt.figure(figsize=(8, 6))
-importance.plot(kind="barh", color="#2ecc71", edgecolor="black")
+importance.plot(kind="barh", color="#b7db34", edgecolor="black")
 plt.title("Feature Importance (Random Forest)")
 plt.xlabel("Importance Score")
 plt.tight_layout()

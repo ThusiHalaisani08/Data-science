@@ -7,14 +7,14 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score
 
-# ── Load Data ───────────────────────────────────────────────────
+# ── Load Data 
 columns = ["CRIM", "ZN", "INDUS", "CHAS", "NOX", "RM", "AGE",
            "DIS", "RAD", "TAX", "PTRATIO", "B", "LSTAT", "MEDV"]
 
 df = pd.read_csv(r"C:\Users\Student\OneDrive - University of KwaZulu-Natal\Desktop\Data Science Folder\Data-science-intern\LEVEL 2\4) house Prediction Data Set.csv",
                  sep=r"\s+", engine="python", header=None, names=columns)
 
-# ── Step 1: Split Features & Target ────────────────────────────
+# ── Step 1: Split Features & Target 
 X = df.drop(columns=["MEDV"])  # features
 y = df["MEDV"]                 # target (house price)
 
@@ -24,7 +24,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 print(f"Training set: {X_train.shape}")
 print(f"Testing set:  {X_test.shape}")
 
-# ── Step 2: Train 3 Models ──────────────────────────────────────
+# ── Step 2: Train 3 Models 
 models = {
     "Linear Regression": LinearRegression(),
     "Decision Tree":     DecisionTreeRegressor(random_state=42),
@@ -43,7 +43,7 @@ for name, model in models.items():
     print(f"  RMSE : {rmse:.3f}")
     print(f"  R²   : {r2:.3f}")
 
-# ── Step 3: Visualizations ──────────────────────────────────────
+# ── Step 3: Visualizations 
 fig, axes = plt.subplots(1, 3, figsize=(16, 5))
 fig.suptitle("Regression Model Comparison", fontsize=14, fontweight="bold")
 
@@ -60,7 +60,7 @@ plt.tight_layout()
 plt.savefig("regression_results.png", dpi=150, bbox_inches="tight")
 plt.show()
 
-# ── Step 4: Feature Importance (Random Forest) ─────────────────
+# ── Step 4: Feature Importance (Random Forest) 
 rf_model = models["Random Forest"]
 importance = pd.Series(rf_model.feature_importances_, index=X.columns)
 importance = importance.sort_values(ascending=True)

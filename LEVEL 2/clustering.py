@@ -70,3 +70,46 @@ plt.xticks(k_range)
 plt.tight_layout()
 plt.savefig("silhouette analysis.png", dpi=150, bbox_inches="tight")
 plt.show()
+
+print("\t\t\t Final KMeans with k=2")
+k_final = KMeans(n_clusters=2, random_state=42, n_init=10)
+df["Cluster"]= k_final.fit_predict(x_scaled)
+
+print("\nCluster Distribution:")
+print(df["Cluster"].value_counts().sort_index())
+
+print("\t\t\t Cluster Profiles")
+profile = df.groupby("Cluster")[["Total day minutes",
+                                  "Total day charge",
+                                  "Customer service calls",
+                                  "International plan",
+                                  "Churn"]].mean().round(3)
+print(profile)
+
+#visualisation of clusters using PCA
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(x_scaled)
+explained = pca.explained_variance_ratio_
+
+print(f"\nPC1 explains: {explained[0]*100:.1f}% of variance")
+print(f"PC2 explains: {explained[1]*100:.1f}% of variance")
+print(f"Total explained: {sum(explained)*100:.1f}%")
+
+plt.figure(figsize=(9, 6))
+colors = ["#1f77b4", "#ff7f0e"]
+
+for i in range(2):
+    mask = df["Cluster"] == i
+    plt.scatter(X_pca[mask, 0], X_pca[mask, 1], 
+                label=f"Cluster {i} ({mask.sum()})", 
+                alpha=0.5,
+                color = colors[i],
+                s=20)
+    
+plt.title("KMeans Clusters Visualized with PCA (K=2)")
+plt.xlabel(f"PC1 ({explained[0]*100:.1f}%) Varience Explained")
+plt.ylabel(f"PC2 ({explained[1]*100:.1f}%) Varience Explained")
+plt.legend()
+plt.tight_layout()
+plt.savefig("kmeans clusters pca.png", dpi=150, bbox_inches="tight")
+plt.show()

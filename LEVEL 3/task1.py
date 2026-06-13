@@ -2,7 +2,7 @@ import yfinance as yf
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# ── Step 1: Download Apple Stock Data ──────────────────────────
+#Step 1: Download Apple Stock Data 
 df = yf.download("AAPL", start="2020-01-01", end="2024-01-01")
 
 print(df.shape)

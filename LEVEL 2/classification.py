@@ -61,11 +61,11 @@ for name, model in models.items():
 
 #  Step 3: ROC Curves 
 plt.figure(figsize=(8, 6))
-colors = ["#3498db", "#2ecc71", "#e74c3c"]
+colors = ["#345edb", "#2ecc71", "#e74c3c"]
 
 for (name, model), color in zip(models.items(), colors):
     y_prob = model.predict_proba(X_test)[:, 1]
-    fpr, tpr, _ = roc_curve(y_test, y_prob)
+    fpr, tpr, _ = roc_curve(y_test, y_prob)#false positive rate and true positive rate
     roc_auc = auc(fpr, tpr)
     plt.plot(fpr, tpr, color=color, lw=2,
              label=f"{name} (AUC = {roc_auc:.3f})")

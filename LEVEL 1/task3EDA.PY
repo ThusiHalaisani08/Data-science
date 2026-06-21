@@ -9,11 +9,11 @@ df = pd.read_csv(csv_path)
 #drop unnamed columns
 df = df.drop(columns=[col for col in df.columns if "Unnamed" in col])
 
-# ── Fix Platform whitespace ─────────────────────────────────────
+#  Fix Platform whitespace
 df["Platform"] = df["Platform"].str.strip()
 df["Country"]  = df["Country"].str.strip()
 
-# ── Group Sentiment into 3 buckets ─────────────────────────────
+#  Group Sentiment into 3 buckets
 positive_words = ["Positive", "Joy", "Excitement", "Contentment", "Happiness",
                   "Admiration", "Amusement", "Gratitude", "Pride", "Relief",
                   "Optimism", "Love", "Enthusiasm"]
@@ -30,16 +30,15 @@ def group_sentiment(s):
         return "Neutral"
 
 df["Sentiment_Group"] = df["Sentiment"].apply(group_sentiment)
-
 # ── Step 2: Summary Statistics ──────────────────────────────────
-print("=== Summary Statistics ===")
+print("Summary Statistics")
 print(df[["Retweets", "Likes"]].describe().round(2))
 print("\nSentiment Distribution:")
 print(df["Sentiment_Group"].value_counts())
 print("\nPlatform Distribution:")
 print(df["Platform"].value_counts())
 
-# ── Step 3: Visualizations ──────────────────────────────────────
+# Visualizations 
 fig, axes = plt.subplots(2, 3, figsize=(16, 10))
 fig.suptitle("Sentiment Dataset EDA", fontsize=16, fontweight="bold")
 
@@ -96,7 +95,7 @@ plt.savefig("eda_plots.png", dpi=150, bbox_inches="tight")
 plt.show()
 print("\n Plots saved to eda_plots.png")
 
-# ── Step 4: Correlation Matrix ──────────────────────────────────
+#Correlation Matrix
 plt.figure(figsize=(6, 4))
 corr = df[["Retweets", "Likes", "Year", "Month", "Day", "Hour"]].corr()
 sns.heatmap(corr, annot=True, fmt=".2f", cmap="coolwarm",
